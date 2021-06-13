@@ -7,7 +7,7 @@
 
 
 
-# In[104]:
+# In[133]:
 
 
 ##################PART 4 - FFTs
@@ -58,7 +58,7 @@ plt.subplots_adjust(hspace = 0.5)
 plt.show()
 
 
-# In[105]:
+# In[134]:
 
 
 t = [] # column 0
@@ -110,7 +110,7 @@ plt.subplots_adjust(hspace = 0.5)
 plt.show()
 
 
-# In[106]:
+# In[135]:
 
 
 
@@ -163,7 +163,7 @@ plt.subplots_adjust(hspace = 0.5)
 plt.show()
 
 
-# In[107]:
+# In[136]:
 
 
 
@@ -216,7 +216,7 @@ plt.subplots_adjust(hspace = 0.5)
 plt.show()
 
 
-# In[108]:
+# In[137]:
 
 
 ################PART 5 - MAF
@@ -303,7 +303,7 @@ plt.show()
     
 
 
-# In[109]:
+# In[138]:
 
 
 X = 500
@@ -387,7 +387,7 @@ plt.show()
     
 
 
-# In[110]:
+# In[139]:
 
 
 X = 500
@@ -472,7 +472,7 @@ plt.show()
     
 
 
-# In[111]:
+# In[140]:
 
 
 X = 500
@@ -554,6 +554,370 @@ plt.show()
 
     
     
+
+
+# In[141]:
+
+
+###############PART 6 - IIR
+
+A= 0.75
+B= 0.25
+X = 500
+
+
+t = [] # column 0
+data1 = [] # column 1
+# data2 = [] # column 2
+data1_avg = [] #averaged data
+data1_iir = [] #iir applied data
+
+with open('sigA.csv') as f:
+    # open the csv file
+    reader = csv.reader(f)
+    for row in reader:
+        # read the rows 1 one by one
+        t.append(float(row[0])) # leftmost column
+        data1.append(float(row[1])) # second column
+#         data2.append(float(row[2])) # third column
+t_avg = t[:len(t)-X]
+t_iir = t[1:len(t)-X+1]
+
+j = 0;
+
+for i in range(len(t)-X):
+    if(i>0):
+        new_avg = A*avg + B*data1[i]
+        data1_iir.append(float(new_avg))   
+    avg = 0
+    for j in range(X):
+        avg = avg + data1[i+j]
+    avg = avg/X
+    data1_avg.append(float(avg))
+    
+new_avg = A*avg + B*data1[i]
+data1_iir.append(float(new_avg))   
+
+
+
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1 # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.set_title('A is 0.75, B is 0.25, X is 500',fontsize = 16)
+ax1.plot(t,y,'black')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'black') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()    
+    
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1_iir # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+    
+    
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.plot(t_iir,y,'red')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'red') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()
+
+
+# In[142]:
+
+
+
+
+A= 0.75
+B= 0.25
+X = 500
+
+
+t = [] # column 0
+data1 = [] # column 1
+# data2 = [] # column 2
+data1_avg = [] #averaged data
+data1_iir = [] #iir applied data
+
+with open('sigB.csv') as f:
+    # open the csv file
+    reader = csv.reader(f)
+    for row in reader:
+        # read the rows 1 one by one
+        t.append(float(row[0])) # leftmost column
+        data1.append(float(row[1])) # second column
+#         data2.append(float(row[2])) # third column
+t_avg = t[:len(t)-X]
+t_iir = t[1:len(t)-X+1]
+
+j = 0;
+
+for i in range(len(t)-X):
+    if(i>0):
+        new_avg = A*avg + B*data1[i]
+        data1_iir.append(float(new_avg))   
+    avg = 0
+    for j in range(X):
+        avg = avg + data1[i+j]
+    avg = avg/X
+    data1_avg.append(float(avg))
+    
+new_avg = A*avg + B*data1[i]
+data1_iir.append(float(new_avg))   
+
+
+
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1 # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.set_title('A is 0.75, B is 0.25, X is 500',fontsize = 16)
+ax1.plot(t,y,'black')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'black') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()    
+    
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1_iir # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+    
+    
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.plot(t_iir,y,'red')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'red') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()
+
+
+# In[143]:
+
+
+
+
+A= 0.75
+B= 0.25
+X = 500
+
+
+t = [] # column 0
+data1 = [] # column 1
+# data2 = [] # column 2
+data1_avg = [] #averaged data
+data1_iir = [] #iir applied data
+
+with open('sigC.csv') as f:
+    # open the csv file
+    reader = csv.reader(f)
+    for row in reader:
+        # read the rows 1 one by one
+        t.append(float(row[0])) # leftmost column
+        data1.append(float(row[1])) # second column
+#         data2.append(float(row[2])) # third column
+t_avg = t[:len(t)-X]
+t_iir = t[1:len(t)-X+1]
+
+j = 0;
+
+for i in range(len(t)-X):
+    if(i>0):
+        new_avg = A*avg + B*data1[i]
+        data1_iir.append(float(new_avg))   
+    avg = 0
+    for j in range(X):
+        avg = avg + data1[i+j]
+    avg = avg/X
+    data1_avg.append(float(avg))
+    
+new_avg = A*avg + B*data1[i]
+data1_iir.append(float(new_avg))   
+
+
+
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1 # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.set_title('A is 0.75, B is 0.25, X is 500',fontsize = 16)
+ax1.plot(t,y,'black')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'black') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()    
+    
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1_iir # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+    
+    
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.plot(t_iir,y,'red')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'red') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()
+
+
+# In[144]:
+
+
+
+
+A= 0.75
+B= 0.25
+X = 500
+
+
+t = [] # column 0
+data1 = [] # column 1
+# data2 = [] # column 2
+data1_avg = [] #averaged data
+data1_iir = [] #iir applied data
+
+with open('sigD.csv') as f:
+    # open the csv file
+    reader = csv.reader(f)
+    for row in reader:
+        # read the rows 1 one by one
+        t.append(float(row[0])) # leftmost column
+        data1.append(float(row[1])) # second column
+#         data2.append(float(row[2])) # third column
+t_avg = t[:len(t)-X]
+t_iir = t[1:len(t)-X+1]
+
+j = 0;
+
+for i in range(len(t)-X):
+    if(i>0):
+        new_avg = A*avg + B*data1[i]
+        data1_iir.append(float(new_avg))   
+    avg = 0
+    for j in range(X):
+        avg = avg + data1[i+j]
+    avg = avg/X
+    data1_avg.append(float(avg))
+    
+new_avg = A*avg + B*data1[i]
+data1_iir.append(float(new_avg))   
+
+
+
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1 # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.set_title('A is 0.75, B is 0.25, X is 500',fontsize = 16)
+ax1.plot(t,y,'black')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'black') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()    
+    
+Fs = len(t)/t[-1] # sample rate
+Ts = 1.0/Fs; # sampling interval
+ts = np.arange(0,t[-1],Ts) # time vector
+y = data1_iir # the data to make the fft from
+n = len(y) # length of the signal
+k = np.arange(n)
+T = n/Fs
+frq = k/T # two sides frequency range
+frq = frq[range(int(n/2))] # one side frequency range
+Y = np.fft.fft(y)/n # fft computing and normalization
+Y = Y[range(int(n/2))]
+    
+    
+fig, (ax1, ax2) = plt.subplots(2, 1)
+ax1.plot(t_iir,y,'red')
+ax1.set_xlabel('Time')
+ax1.set_ylabel('Amplitude')
+ax2.loglog(frq,abs(Y),'red') # plotting the fft
+ax2.set_xlabel('Freq (Hz)')
+ax2.set_ylabel('|Y(freq)|')
+plt.subplots_adjust(hspace = 0.5)
+plt.show()
 
 
 # In[ ]:
