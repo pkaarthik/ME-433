@@ -23,9 +23,9 @@
 #pragma config FWDTWINSZ = WINSZ_25 // wdt window at 25%
 
 // DEVCFG2 - get the sysclk clock to 48MHz from the 8MHz crystal
-#pragma config FPLLIDIV = DIV_4 // divide input clock to be in range 4-5MHz
+#pragma config FPLLIDIV = DIV_2 // divide input clock to be in range 4-5MHz
 #pragma config FPLLMUL = MUL_24 // multiply clock after FPLLIDIV
-#pragma config FPLLODIV = DIV_1 // divide clock after FPLLMUL to get 48MHz
+#pragma config FPLLODIV = DIV_2 // divide clock after FPLLMUL to get 48MHz
 
 // DEVCFG3
 #pragma config USERID = 00000000 // some 16bit userid, doesn't matter what
