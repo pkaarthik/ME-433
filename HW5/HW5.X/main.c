@@ -3,25 +3,24 @@
 #include <xc.h>          // processor SFR definitions
 
 // DEVCFG0
-#pragma config DEBUG = OFF       // disable debugging
-#pragma config JTAGEN = OFF      // disable jtag
+#pragma config DEBUG = OFF // disable debugging
+#pragma config JTAGEN = OFF // disable jtag
 #pragma config ICESEL = ICS_PGx1 // use PGED1 and PGEC1
-#pragma config PWP = OFF         // disable flash write protect
-#pragma config BWP = OFF         // disable boot write protect
-#pragma config CP = OFF          // disable code protect
+#pragma config PWP = OFF  // disable flash write protect
+#pragma config BWP = OFF // disable boot write protect
+#pragma config CP = OFF // disable code protect
 
 // DEVCFG1
 #pragma config FNOSC = FRCPLL // use internal oscillator with pll
 #pragma config FSOSCEN = OFF  // disable secondary oscillator
-#pragma config IESO = OFF     // disable switching clocks
+#pragma config IESO = OFF  // disable switching clocks
 #pragma config POSCMOD = OFF  // internal RC
 #pragma config OSCIOFNC = OFF // disable clock output
-#pragma config FPBDIV =                                                        \
-    DIV_1 // divide sysclk freq by 1 for peripheral bus clock
-#pragma config FCKSM = CSDCMD       // disable clock switch and FSCM
-#pragma config WDTPS = PS1048576    // use largest wdt
-#pragma config WINDIS = OFF         // use non-window mode wdt
-#pragma config FWDTEN = OFF         // wdt disabled
+#pragma config FPBDIV = DIV_1 // divide sysclk freq by 1 for peripheral bus clock
+#pragma config FCKSM = CSDCMD // disable clock switch and FSCM
+#pragma config WDTPS = PS1048576// use largest wdt
+#pragma config WINDIS = OFF // use non-window mode wdt
+#pragma config FWDTEN = OFF  // wdt disabled
 #pragma config FWDTWINSZ = WINSZ_25 // wdt window at 25%
 
 // DEVCFG2 - get the sysclk clock to 48MHz from the 8MHz crystal
