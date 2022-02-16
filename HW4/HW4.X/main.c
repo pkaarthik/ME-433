@@ -64,11 +64,25 @@ int main() {
   
   while (1) {
      if (PORTBbits.RB4 == 0) {
-       int n;
-       for (n = 0; n < 4; n++) { // 4 iterations of loop - on, off, on, off.
-         LATAINV = 0b10000; // switch pin A4 value
-         delay(); //run delay for 0.5s
-      }
+       LATAbits.LATA4=1;
+       _CP0_SET_COUNT(0);
+       delay();
+       LATAbits.LATA4=0;
+       _CP0_SET_COUNT(0);
+       delay();
+       LATAbits.LATA4=1;
+       _CP0_SET_COUNT(0);
+       delay();
+       LATAbits.LATA4=0;
+       _CP0_SET_COUNT(0);
+       delay();
+               
+//       int n;
+//       for (n = 0; n < 4; n++) { // 4 iterations of loop - on, off, on, off.
+//         LATAINV = 0b10000; // switch pin A4 value
+//         delay(); //run delay for 0.5s
+//      }
+
     }
   }
 }
