@@ -101,7 +101,7 @@ int main() {
   wsColor white = {255, 255, 255};
   wsColor arr_col[5] = {red, green, blue, white,white};
     
-    ws2812b_setColor(arr_col, 5);
+  ws2812b_setColor(arr_col, 5);
     
     
     while (1) {
