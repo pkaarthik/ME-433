@@ -101,7 +101,7 @@ void ws2812b_setColor(wsColor * c, int numLEDs) {
     }
     LATBbits.LATB11 = 0;
     TMR2 = 0;
-    while(TMR2 < 24000){} // wait 50uS, reset condition
+    while(TMR2 < 2400){} // wait 50uS, reset condition
 }
 
 // adapted from https://forum.arduino.cc/index.php?topic=8498.0

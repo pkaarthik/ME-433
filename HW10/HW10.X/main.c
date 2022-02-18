@@ -77,51 +77,52 @@ int main() {
   U1MODEbits.ON = 1;
   
   
-  ws2812b_setup();
+  ws2812b_setup(); //enable neopixels
   __builtin_enable_interrupts();
   
-  LATBbits.LATB11 = 0;
+  LATBbits.LATB11 = 0; //turn off lights before running code
   TMR2=0;
   while (TMR2 < 24000) {;}
   
   wsColor led1, led2, led3, led4, led5;
-  float sat = 0.4;
-  float bright = 0.1;
+  float sat = 0.8;
+  float bright = 0.5;
   
-  float hue1 = 0;
+  float hue1 = 0;  //define hues for 5 LEDs - these change in while loop to create a cascading pattern
   float hue2 = 72;
   float hue3 = 144;
   float hue4 = 216;
   float hue5 = 288;
 
   
-  wsColor red = {255, 0, 0};
-  wsColor green = {0, 255, 0};
+  wsColor red = {255, 0, 0};  //define base colors for us to test that colors are working
+  wsColor green = {0, 255, 0}; 
   wsColor blue = {0, 0, 255};
   wsColor white = {255, 255, 255};
-  wsColor arr_col[5] = {red, green, blue, white,white};
+  wsColor black = {0,0,0};
+  wsColor arr_col[5] = {red, green, blue, white, black};
     
   ws2812b_setColor(arr_col, 5);
     
     
     while (1) {
         _CP0_SET_COUNT(0);
-        LATAINV = 0b10000;
+        LATAINV = 0b10000; //heartbeat
         
-        led1 = HSBtoRGB(hue1, sat, bright);
+        led1 = HSBtoRGB(hue1, sat, bright);  //use HSBtoRGB to set LED colors for each LED
         led2 = HSBtoRGB(hue2, sat, bright);
         led3 = HSBtoRGB(hue3, sat, bright);
         led4 = HSBtoRGB(hue4, sat, bright);
         led5 = HSBtoRGB(hue5, sat, bright);
         
         
-        hue1=hue1+18;
+        hue1=hue1+18;  //increment each hue evenly so as to create the pattern
         hue2=hue2+18;
         hue3=hue3+18;
         hue4=hue4+18;
         hue5=hue5+18;
         
-        if(hue1>360){
+        if(hue1>360){   //hue ranges from 0 to 360 - check that it doesn't exceed this
             hue1=0;
         }
         if(hue2>360){
@@ -137,14 +138,14 @@ int main() {
             hue5=0;
         }
         
-        wsColor arr_col[5] = {led1, led2, led3, led4,led5};
+        wsColor arr_col[5] = {led1, led2, led3, led4,led5}; 
 
-        ws2812b_setColor(arr_col, 5);
-        
+        ws2812b_setColor(arr_col, 5);  //light those LEDs up!
+         
         TMR2 = 0;
-        while (TMR2 < 50000) {}
+        while (TMR2 < 2400) {} //delay changing colors a little bit.
 //        
-        while (_CP0_GET_COUNT() < 48000000 / 40 ) {} 
+        while (_CP0_GET_COUNT() < 48000000 / 40 ) {} //heartbeat timer
     }
       
   }
