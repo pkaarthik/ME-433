@@ -4,3 +4,5 @@ In this assignment, I add a 240x240 pixel IPS LCD with a built-in controller (ST
 
 https://user-images.githubusercontent.com/76706363/154633143-f63ea4fe-801a-4f8a-9093-f1237cc417e8.MOV
 
+Note: Since the bar changes color, there was difficulty focusing on it in the video. Find screenshots of the bar in red state (<50% completion) and green state (>50% completion) as well.
+
