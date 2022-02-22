@@ -98,7 +98,7 @@ int main() {
       for(i=0;i<100;i++){
         
         csine = 1;
-        vsine = 512.0 * (sin((4 * PI * (i / (100 / 2.0))))) + 512.0;
+        vsine = 512.0*(sin((4*PI*i/(100/2.0))))+512.0;
         psine = (csine<<15);
         psine = psine|(0b111<<12);
         psine = psine|(vsine<<2);
@@ -111,10 +111,10 @@ int main() {
         
         ctri = 0;
         if (i < 50) {
-          vtri = abs((1024 / 25) * i - 1023);
+          vtri = abs((1024/25)*i-1023);
         }
         else {
-          vtri = abs((1024 / 25) * (i - 50) - 1023);
+          vtri = abs((1024/25)*(i-50)-1023);
         }
         ptri = (ctri<<15);
         ptri = ptri|(0b111<<12);
